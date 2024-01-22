@@ -149,11 +149,11 @@ values('Taina', 'Russia', '12/11/2021', '568','DETECTIVE', '5', '12', '6'),
 
 -- 16. Авторлордун бардык маалыматтары жана издательстволору чыксын, издательство болбосо null чыксын
     select a.*, p.* from authors a
-        left join public.books b on a.author_id = b.author_id
+        left join books b on a.author_id = b.author_id
         left join publishers p on p.publisher_id = b.publisher_id order by  first_name;
 
 -- 17. Авторлордун толук аты-жону жана китептери чыксын, китеби жок болсо null чыксын.
-    select a.first_name, a.last_name, b.* from authors a
+    select a.first_name, a.last_name, b.name from authors a
         left join books b on b.author_id = a.author_id;
 
 -- 18. Кайсы тилде канча китеп бар экендиги ылдыйдан ойдого сорттолуп чыксын.
@@ -173,5 +173,7 @@ values('Taina', 'Russia', '12/11/2021', '568','DETECTIVE', '5', '12', '6'),
 -- 21. 2010-2015 жылдардын арасындагы китептердин авторлорунун толук аты-жону жана алардын тапкан акчаларынын жалпы суммасы чыксын.
     select a.first_name, a.last_name, sum(price)from books b
         inner join authors a on a.author_id = b.author_id
-                                          where b.published_year between '1-1-2010' and '31-12-2015'
+                                          where extract(year from b.published_year) between '2010' and '2015'
                                           group by first_name, last_name;
+show datestyle;
+set datestyle to 'dmy';
